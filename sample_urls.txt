@@ -1,0 +1,6 @@
+https://github.com/login
+http://192.168.10.22:8080/login
+https://bit.ly/example-login
+https://accounts.google.com.security-check.example-login.xyz/reset
+https://paypa1-check.com/account
+https://example.com/login?redirect=http://unknown-site.xyz
