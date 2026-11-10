@@ -1,6 +1,6 @@
 # URL Checker
 
-A screening desk for reviewing suspicious URLs. The Node.js API analyzes the URL's structure, scores risk signals, and saves the result to PostgreSQL. In the React interface, you can inspect the findings, mark a URL safe or suspicious, and keep a history of review decisions and notes.
+A web app for checking and reviewing potentially suspicious URLs. The Node.js API analyzes the URL's structure, scores risk signals, and saves the result to PostgreSQL. In the React interface, you can inspect the findings, mark a URL safe or suspicious, and keep a history of review decisions and notes.
 
 The score is a heuristic, not a guarantee that a link is safe. The app never opens submitted URLs. It rejects embedded credentials, hides query parameter values, and drops fragments before storing a result.
 
