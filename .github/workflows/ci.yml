@@ -1,0 +1,36 @@
+name: URL Checker CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: checker
+          POSTGRES_PASSWORD: checker
+          POSTGRES_DB: url_checker_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U checker -d url_checker_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql://checker:checker@127.0.0.1:5432/url_checker_test
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run test:integration
+      - run: npm run build

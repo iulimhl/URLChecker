@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: checker
+      POSTGRES_PASSWORD: checker
+      POSTGRES_DB: url_checker
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - checker-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "checker", "-d", "url_checker"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://checker:checker@db:5432/url_checker
+      HOST: 0.0.0.0
+    ports:
+      - "127.0.0.1:3001:3001"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  checker-data:
